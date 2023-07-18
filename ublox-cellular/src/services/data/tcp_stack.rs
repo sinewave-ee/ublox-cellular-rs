@@ -63,15 +63,16 @@ where
                 .map_err(Self::Error::from)?;
 
             if matches!(tcp.state(), TcpState::Created) {
-                self.network
-                    .send_internal(
-                        &SetSocketSslState {
-                            socket: *socket,
-                            ssl_tls_status: SslTlsStatus::Enabled(SecurityProfileId(0)),
-                        },
-                        true,
-                    )
-                    .map_err(|_| nb::Error::Other(Error::Unaddressable))?;
+                // TODO: reenable?
+                // self.network
+                //     .send_internal(
+                //         &SetSocketSslState {
+                //             socket: *socket,
+                //             ssl_tls_status: SslTlsStatus::Enabled(SecurityProfileId(0)),
+                //         },
+                //         true,
+                //     )
+                //     .map_err(|_| nb::Error::Other(Error::Unaddressable))?;
 
                 self.network
                     .send_internal(
