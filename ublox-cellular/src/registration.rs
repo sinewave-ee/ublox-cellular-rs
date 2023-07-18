@@ -14,6 +14,7 @@ use fugit::{ExtU32, TimerInstantU32};
 use heapless::String;
 
 #[derive(Debug, Clone, Default)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct CellularRegistrationStatus<const TIMER_HZ: u32> {
     status: Status,
     updated: Option<TimerInstantU32<TIMER_HZ>>,
@@ -173,6 +174,7 @@ impl From<RegType> for RadioAccessNetwork {
 }
 
 #[derive(Debug, Clone, Default)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct CellularGlobalIdentity {
     /// Registered network operator cell Id.
     cell_id: Option<String<8>>,
@@ -185,6 +187,7 @@ pub struct CellularGlobalIdentity {
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct RegistrationState<CLK, const TIMER_HZ: u32>
 where
     CLK: fugit_timer::Timer<TIMER_HZ>,

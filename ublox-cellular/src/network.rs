@@ -46,6 +46,7 @@ pub struct ProfileId(pub u8);
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct ContextId(pub u8);
 
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct AtTx<C> {
     urc_attempts: u8,
     max_urc_attempts: u8,
@@ -133,6 +134,7 @@ impl<C: AtatClient> AtTx<C> {
     }
 }
 
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct Network<C, CLK, const TIMER_HZ: u32>
 where
     CLK: fugit_timer::Timer<TIMER_HZ>,
