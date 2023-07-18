@@ -17,7 +17,8 @@ pub enum Functionality {
         feature = "toby-l4",
         feature = "leon-g1",
         feature = "sara-g3",
-        feature = "sara-g4"
+        feature = "sara-g4",
+        feature = "sara-r5"
     ))]
     Minimum = 0,
 
@@ -35,7 +36,8 @@ pub enum Functionality {
         feature = "toby-l4",
         feature = "leon-g1",
         feature = "sara-g3",
-        feature = "sara-g4"
+        feature = "sara-g4",
+        feature = "sara-r5"
     ))]
     Full = 1,
 
@@ -125,7 +127,8 @@ pub enum Functionality {
         feature = "toby-l4",
         feature = "leon-g1",
         feature = "sara-g3",
-        feature = "sara-g4"
+        feature = "sara-g4",
+        feature = "sara-r5"
     ))]
     SilentReset = 15,
 
@@ -141,19 +144,20 @@ pub enum Functionality {
         feature = "toby-l4",
         feature = "leon-g1",
         feature = "sara-g3",
-        feature = "sara-g4"
+        feature = "sara-g4",
+        feature = "sara-r5"
     ))]
     SilentResetWithSimReset = 16,
 
     /// 19: Sets the MT to minimum functionality by deactivating CS and PS services and
     /// the SIM card
-    #[cfg(any(feature = "toby-l2", feature = "mpci-l2", feature = "toby-l4"))]
+    #[cfg(any(feature = "toby-l2", feature = "mpci-l2", feature = "toby-l4", feature = "sara-r5"))]
     MinimumWithoutSim = 19,
 
     /// 127: Sets the MT in a deep low power state "HALT" (with detach from the network
     /// and saving of the NVM parameters); the only way to wake up the module is a power
     /// cycle or a module reset
-    #[cfg(any(feature = "toby-l2", feature = "mpci-l2"))]
+    #[cfg(any(feature = "toby-l2", feature = "mpci-l2", feature = "sara-r5"))]
     Halt = 127,
 }
 

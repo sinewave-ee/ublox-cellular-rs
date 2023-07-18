@@ -13,18 +13,13 @@ mod hex;
 
 use crate::{
     client::Device,
-    command::mobile_control::types::{Functionality, ResetMode},
-    command::mobile_control::SetModuleFunctionality,
-    command::psn::types::PDPContextStatus,
-    command::psn::SetPDPContextDefinition,
-    command::psn::SetPDPContextState,
     command::Urc,
     command::{
         ip_transport_layer::{
             responses::{SocketData, UDPSocketData},
             ReadSocketData, ReadUDPSocketData,
         },
-        psn::{self, responses::GPRSAttached, GetPDPContextState},
+        psn::{self, responses::GPRSAttached},
     },
     error::Error as DeviceError,
     error::GenericError,
@@ -66,6 +61,10 @@ where
     /// Define a PDP context
     #[cfg(not(feature = "upsd-context-activation"))]
     fn define_context(&mut self, cid: ContextId, apn_info: &APNInfo) -> Result<(), Error> {
+        use crate::command::mobile_control::SetModuleFunctionality;
+        use crate::command::mobile_control::types::{Functionality, ResetMode};
+        use crate::command::psn::SetPDPContextDefinition;
+
         if self.network.context_state != ContextState::Setup {
             return Ok(());
         }
@@ -272,6 +271,10 @@ where
         profile_id: ProfileId,
         apn_info: &APNInfo,
     ) -> nb::Result<(), Error> {
+        use crate::command::psn::{GetPacketSwitchedNetworkData, SetPacketSwitchedConfig, SetPacketSwitchedAction};
+        use crate::command::psn::responses::PacketSwitchedNetworkData;
+        use crate::command::psn::types::{PacketSwitchedNetworkDataParam, PacketSwitchedParam, ProtocolType, PacketSwitchedAction};
+
         if self.network.context_state == ContextState::Active {
             return Ok(());
         }
@@ -407,6 +410,9 @@ where
     /// Required for SARA-R4 and TOBY modules.
     #[cfg(not(feature = "upsd-context-activation"))]
     fn activate_context(&mut self, cid: ContextId, profile_id: ProfileId) -> nb::Result<(), Error> {
+        use crate::command::psn::{GetPDPContextState, SetPDPContextState};
+        use crate::command::psn::types::PDPContextStatus;
+
         if self.network.context_state == ContextState::Active {
             return Ok(());
         }
