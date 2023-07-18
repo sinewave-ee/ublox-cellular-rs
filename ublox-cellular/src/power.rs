@@ -59,6 +59,9 @@ where
         self.network.send_internal(
             &SetFactoryConfiguration {
                 fs_op: FSFactoryRestoreType::AllFiles,
+                #[cfg(feature = "sara-r5")]
+                nvm_op: NVMFactoryRestoreType::InternalUseOnly,
+                #[cfg(not(feature = "sara-r5"))]
                 nvm_op: NVMFactoryRestoreType::NVMFlashSectors,
             },
             false,
