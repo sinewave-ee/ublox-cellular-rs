@@ -439,9 +439,13 @@ where
 
         let model_id = self.at_client.send(&GetModelId).await?;
         self.ch.set_module(Module::from_model_id(&model_id));
-        
+
         let FirmwareVersion { version } = self.at_client.send(&GetFirmwareVersion).await?;
-        info!("Found module to be: {=[u8]:a}, {=[u8]:a}", model_id.model.as_slice(), version.as_slice());
+        info!(
+            "Found module to be: {=[u8]:a}, {=[u8]:a}",
+            model_id.model.as_slice(),
+            version.as_slice()
+        );
 
         // Echo off
         self.at_client.send(&SetEcho { enabled: Echo::Off }).await?;
@@ -968,7 +972,7 @@ where
     async fn activate_context(
         &mut self,
         cid: ContextId,
-        _profile_id: ProfileId,
+        profile_id: ProfileId,
     ) -> Result<(), Error> {
         for _ in 0..5 {
             #[cfg(feature = "sara-r422")]
@@ -1008,7 +1012,7 @@ where
                 {
                     self.at_client
                         .send(&psn::SetPacketSwitchedConfig {
-                            profile_id: _profile_id,
+                            profile_id: profile_id,
                             param: psn::types::PacketSwitchedParam::ProtocolType(
                                 psn::types::ProtocolType::IPv4,
                             ),
@@ -1017,7 +1021,7 @@ where
 
                     self.at_client
                         .send(&psn::SetPacketSwitchedConfig {
-                            profile_id: _profile_id,
+                            profile_id: profile_id,
                             param: psn::types::PacketSwitchedParam::MapProfile(cid),
                         })
                         .await?;

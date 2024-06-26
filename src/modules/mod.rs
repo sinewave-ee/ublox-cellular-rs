@@ -98,6 +98,7 @@ pub(crate) enum Module {
 impl Module {
     pub fn from_model_id(model_id: &ModelId) -> Self {
         match model_id.model.as_slice() {
+            #[cfg(any(feature = "any-module", feature = "lara-r6"))]
             b"LARA-R6001D" => Self::LaraR6(lara_r6::LaraR6),
             id => {
                 warn!("Attempting to run {:?} using generic module parameters! This may or may not work.", id);
