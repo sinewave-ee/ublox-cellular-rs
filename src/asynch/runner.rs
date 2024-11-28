@@ -1,5 +1,7 @@
 use crate::asynch::network::NetDevice;
 
+use crate::command::gps::GpsMode;
+use crate::command::gps::SetGps;
 use crate::command::ipc::SetMultiplexing;
 use crate::command::psn::DeactivatePDPContext;
 use crate::command::psn::EnterPPP;
@@ -30,10 +32,10 @@ use embedded_io_async::Write;
 pub(crate) const URC_SUBSCRIBERS: usize = 2;
 
 pub const CMUX_MAX_FRAME_SIZE: usize = 128;
-pub const CMUX_CHANNEL_SIZE: usize = CMUX_MAX_FRAME_SIZE * 4;
+pub const CMUX_CHANNEL_SIZE: usize = CMUX_MAX_FRAME_SIZE * 3;
 
 #[cfg(any(feature = "internal-network-stack", feature = "ppp"))]
-pub const CMUX_CHANNELS: usize = 2;
+pub const CMUX_CHANNELS: usize = 3;
 
 #[cfg(not(any(feature = "internal-network-stack", feature = "ppp")))]
 pub const CMUX_CHANNELS: usize = 1;
@@ -67,6 +69,8 @@ pub struct Runner<'a, R, W, C, const INGRESS_BUF_SIZE: usize, const URC_CAPACITY
 
     #[cfg(feature = "cmux")]
     data_channel: embassy_at_cmux::Channel<'a, CMUX_CHANNEL_SIZE>,
+
+    pub misc_channel: Option<embassy_at_cmux::Channel<'a, CMUX_CHANNEL_SIZE>>,
 
     #[cfg(feature = "ppp")]
     pub ppp_runner: Option<embassy_net_ppp::Runner<'a>>,
@@ -117,6 +121,8 @@ where
 
             #[cfg(feature = "cmux")]
             data_channel: channel_iter.next().unwrap(),
+
+            misc_channel: channel_iter.next(),
 
             #[cfg(feature = "ppp")]
             ppp_runner: None,

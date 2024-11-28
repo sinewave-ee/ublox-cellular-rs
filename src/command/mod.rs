@@ -9,6 +9,7 @@ pub mod dns;
 pub mod file_system;
 pub mod general;
 pub mod gpio;
+pub mod gps;
 pub mod http;
 #[cfg(feature = "internal-network-stack")]
 pub mod ip_transport_layer;
@@ -74,6 +75,11 @@ pub enum Urc {
 
     #[at_urc("+UUHTTPCR")]
     HttpResponse(http::urc::HttpResponse),
+
+    #[at_urc("+UUGIND")]
+    GpsUrc(gps::GpsUrc),
+    #[at_urc("+UULOC")]
+    UlocUrc(gps::UlocUrc),
 }
 
 fn custom_cxreg_parse<'a, T, Error: nom::error::ParseError<&'a [u8]> + core::fmt::Debug>(

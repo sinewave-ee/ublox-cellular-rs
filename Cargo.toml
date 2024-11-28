@@ -50,7 +50,7 @@ embassy-embedded-hal = { version = "0.1", optional = true }
 embedded-io-async = "0.6"
 
 [features]
-default = ["socket-udp", "socket-tcp", "ppp"]
+default = ["socket-udp", "socket-tcp", "ppp", "sara-r5"]
 
 
 ### Cellular feature list from ubxlib:
@@ -145,14 +145,14 @@ exclude = ["examples"]
 #ublox-sockets = { git = "https://github.com/BlackbirdHQ/ublox-sockets", branch = "feature/async-borrowed-sockets" }
 no-std-net = { git = "https://github.com/rushmorem/no-std-net", branch = "issue-15" }
 #ublox-sockets = { path = "../ublox-sockets" }
-embassy-time = { git = "https://github.com/embassy-rs/embassy", branch = "main" }
-embassy-sync = { git = "https://github.com/embassy-rs/embassy", branch = "main" }
-embassy-futures = { git = "https://github.com/embassy-rs/embassy", branch = "main" }
-embassy-net-ppp = { git = "https://github.com/embassy-rs/embassy", branch = "main" }
-embassy-net = { git = "https://github.com/embassy-rs/embassy", branch = "main" }
+embassy-time = { git = "https://github.com/sinewave-ee/embassy", branch = "feature/embassy-at-cmux" }
+embassy-sync = { git = "https://github.com/sinewave-ee/embassy", branch = "feature/embassy-at-cmux" }
+embassy-futures = { git = "https://github.com/sinewave-ee/embassy", branch = "feature/embassy-at-cmux" }
+embassy-net-ppp = { git = "https://github.com/sinewave-ee/embassy", branch = "feature/embassy-at-cmux" }
+embassy-net = { git = "https://github.com/sinewave-ee/embassy", branch = "feature/embassy-at-cmux" }
 
 #embassy-time = { path = "../embassy/embassy-time" }
 #embassy-sync = { path = "../embassy/embassy-sync" }
 #embassy-futures = { path = "../embassy/embassy-futures" }
 
-atat = { path = "../atat/atat" }
+atat = { git = "https://github.com/BlackbirdHQ/atat", rev = "3b3c1a15" }

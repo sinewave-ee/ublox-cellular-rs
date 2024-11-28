@@ -68,6 +68,8 @@ impl<'a, 'b, const URC_CAPACITY: usize> UrcHandler<'a, 'b, URC_CAPACITY> {
                 self.ch
                     .update_registration_with(|state| state.compare_and_set(reg.into()));
             }
+            Urc::GpsUrc(res) => warn!("GPS URC: {:?}", res),
+            Urc::UlocUrc(res) => warn!("ULOC URC: {:?}", res),
         };
     }
 }
